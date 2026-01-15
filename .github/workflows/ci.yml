@@ -1,0 +1,54 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-sign:
+    strategy:
+      matrix:
+        os: [windows-2025]
+    runs-on: ${{ matrix.os }}
+    
+    name: Build and sign on ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install dependencies
+        run: dotnet restore MyApi/MyApi.csproj
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore MyApi/MyApi.csproj
+
+      - name: Sign the Installer with Azure Trusted Signing
+        uses: azure/trusted-signing-action@v0.5.0
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: https://eus.codesigning.azure.net/
+          trusted-signing-account-name: jaxelr
+          certificate-profile-name: jaxelr-pt
+          files-folder: ${{ github.workspace }}\\MyApi\bin\Release\net8.0
+          files-folder-filter: exe,dll
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
+      - name: Upload artifact on pull request
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          name: WebApp-${{ matrix.os }}
+          path: ${{ github.workspace }}\\MyApi\bin\Release\net8.0
+      
