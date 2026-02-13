@@ -45,6 +45,7 @@ jobs:
           file-digest: SHA256
           timestamp-rfc3161: http://timestamp.acs.microsoft.com
           timestamp-digest: SHA256
+          exclude-environment-credential: false
 
       - name: Upload artifact on pull request
         uses: actions/upload-artifact@v4.3.3
