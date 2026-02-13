@@ -32,7 +32,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore MyApi/MyApi.csproj
 
       - name: Sign the Installer with Azure Trusted Signing
-        uses: azure/trusted-signing-action@v1.1.0
+        uses: azure/trusted-signing-action@c82ed5c025b0cd49c3971a4e554447a7ed4ccefe
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
