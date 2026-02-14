@@ -32,7 +32,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore MyApi/MyApi.csproj
 
       - name: Sign the Installer with Azure Trusted Signing
-        uses: azure/trusted-signing-action@c82ed5c025b0cd49c3971a4e554447a7ed4ccefe
+        uses: azure/trusted-signing-action@c8391941c52e9e5bebc593a50430b67ac6492e37
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -45,7 +45,6 @@ jobs:
           file-digest: SHA256
           timestamp-rfc3161: http://timestamp.acs.microsoft.com
           timestamp-digest: SHA256
-          exclude-environment-credential: false
 
       - name: Upload artifact on pull request
         uses: actions/upload-artifact@v4.3.3
