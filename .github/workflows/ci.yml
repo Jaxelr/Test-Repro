@@ -31,7 +31,7 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore MyApi/MyApi.csproj
 
-      - name: Sign the Installer with Azure Trusted Signing
+      - name: Sign bits with Artifact Signing
         uses: azure/trusted-signing-action@28e296df76229fba6a081e67e3eca87e3d5da360
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
