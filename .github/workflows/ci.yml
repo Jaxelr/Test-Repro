@@ -32,7 +32,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore MyApi/MyApi.csproj
 
       - name: Sign bits with Artifact Signing
-        uses: azure/trusted-signing-action@257d8e4243ba5db676b66742657fa84e04a7e7a7
+        uses: azure/trusted-signing-action@v2
         with:
           azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
