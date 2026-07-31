@@ -18,10 +18,10 @@ jobs:
     name: Build and sign on ${{ matrix.os }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.x
 
@@ -47,7 +47,7 @@ jobs:
           timestamp-digest: SHA256
 
       - name: Upload artifact on pull request
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v7
         with:
           name: WebApp-${{ matrix.os }}
           path: ${{ github.workspace }}\\MyApi\bin\Release\net8.0
