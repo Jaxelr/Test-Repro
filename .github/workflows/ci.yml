@@ -12,7 +12,7 @@ jobs:
   build-and-sign:
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-11-arm]
     runs-on: ${{ matrix.os }}
 
     name: Build and sign on ${{ matrix.os }}
@@ -24,6 +24,13 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
+          architecture: x64
+
+      - name: Verify .NET architecture and runtimes
+        shell: pwsh
+        run: |
+          dotnet --info
+          dotnet --list-runtimes
 
       - name: Install dependencies
         run: dotnet restore MyApi/MyApi.csproj
